@@ -1,0 +1,30 @@
+body {
+  background: #e4e4e4; /* gray */
+}
+
+table {
+  margin: 0 auto;
+}
+
+td {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.space {
+  background: #9cd6e4; /* light blue */
+}
+
+.hit {
+  background: red;
+}
+
+.miss {
+  background: white;
+}
+
+.clickable {
+  cursor: pointer;
+}
