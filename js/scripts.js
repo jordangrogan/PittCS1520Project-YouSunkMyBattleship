@@ -1,8 +1,11 @@
 var alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-var player1_ships = new Object();
-var player2_ships = new Object();
+var shipNames = {A:"Aircraft Carrier", B:"Battleship", S:"Submarine"};
+var player1_grid = new Object();
+var player2_grid = new Object();
 var player1_guesses = new Object();
 var player2_guesses = new Object();
+var player1_ships = new Object();
+var player2_ships = new Object();
 var player1, player2;
 var turn;
 
@@ -71,24 +74,41 @@ function setup() {
   B(B6-E6);S(H3-J3);A(A1-A5)
   */
 
+  turn = 1;
   player1_shipplacement = player1_shipplacement.split(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/);
-  addGamePiece(player1_ships, player1_shipplacement[1], player1_shipplacement[2], player1_shipplacement[3]);
-  addGamePiece(player1_ships, player1_shipplacement[5], player1_shipplacement[6], player1_shipplacement[7]);
-  addGamePiece(player1_ships, player1_shipplacement[9], player1_shipplacement[10], player1_shipplacement[11]);
+  addGamePiece(player1_shipplacement[1], player1_shipplacement[2], player1_shipplacement[3]);
+  addGamePiece(player1_shipplacement[5], player1_shipplacement[6], player1_shipplacement[7]);
+  addGamePiece(player1_shipplacement[9], player1_shipplacement[10], player1_shipplacement[11]);
+  console.log("Player 1 Grid:");
+  console.log(player1_grid);
+  console.log("Player 1 Ships:");
   console.log(player1_ships);
 
+  turn = 2;
   player2_shipplacement = player2_shipplacement.split(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/);
-  addGamePiece(player2_ships, player2_shipplacement[1], player2_shipplacement[2], player2_shipplacement[3]);
-  addGamePiece(player2_ships, player2_shipplacement[5], player2_shipplacement[6], player2_shipplacement[7]);
-  addGamePiece(player2_ships, player2_shipplacement[9], player2_shipplacement[10], player2_shipplacement[11]);
+  addGamePiece(player2_shipplacement[1], player2_shipplacement[2], player2_shipplacement[3]);
+  addGamePiece(player2_shipplacement[5], player2_shipplacement[6], player2_shipplacement[7]);
+  addGamePiece(player2_shipplacement[9], player2_shipplacement[10], player2_shipplacement[11]);
+  console.log("Player 2 Grid:");
+  console.log(player2_grid);
+  console.log("Player 2 Ships:");
   console.log(player2_ships);
 
 }
 
-function addGamePiece(gameBoard, piece, firstSpace, lastSpace) {
+function addGamePiece(piece, firstSpace, lastSpace) {
 
   firstSpace = firstSpace.toUpperCase();
   lastSpace = lastSpace.toUpperCase();
+
+  var ships, grid;
+  if(turn === 1) {
+    grid = player1_grid;
+    ships = player1_ships;
+  } else if(turn === 2) {
+    grid = player2_grid;
+    ships = player2_ships;
+  }
 
   /*
   an aircraft carrier (5 spaces long)
@@ -114,7 +134,8 @@ function addGamePiece(gameBoard, piece, firstSpace, lastSpace) {
     var i;
     for(i=0; i<lengthOfPiece; i++) {
       var nextNum = parseInt(firstSpace.charAt(1)) + i;
-      gameBoard[colLetter.concat(nextNum)] = piece;
+      grid[colLetter.concat(nextNum)] = piece;
+      ships["Ship".concat(piece.concat(i))] = colLetter.concat(nextNum);
     }
 
   } else { // Same row (number) = HORIZONTAL PIECE
@@ -124,7 +145,8 @@ function addGamePiece(gameBoard, piece, firstSpace, lastSpace) {
     var i;
     for(i=0; i<lengthOfPiece; i++) {
       var nextLet = String.fromCharCode(firstSpace.charAt(0).charCodeAt() + i);
-      gameBoard[nextLet.concat(rowNum)] = piece;
+      grid[nextLet.concat(rowNum)] = piece;
+      ships["Ship".concat(piece.concat(i))] = nextLet.concat(rowNum);
     }
 
   }
@@ -133,14 +155,16 @@ function addGamePiece(gameBoard, piece, firstSpace, lastSpace) {
 
 function renderGrids() {
 
-  var ships, guesses, i, j, table, row, cell;
+  var grid, guesses, i, j, table, row, cell;
 
   if(turn === 1) {
-    ships = player1_ships;
+    grid = player1_grid;
     guesses = player1_guesses;
+    opponentGuesses = player2_guesses;
   } else if(turn === 2) {
-    ships = player2_ships;
+    grid = player2_grid;
     guesses = player2_guesses;
+    opponentGuesses = player1_guesses;
   }
 
   // Create Enemy Ships Table
@@ -167,12 +191,20 @@ function renderGrids() {
     row.appendChild(cell);
 
     for(j=0; j<10; j++) {
+      /* TO DO */
+      /* Add logic to see if it's been a hit or a miss already! */
       var id = alpha[j].concat((i+1));
       cell = document.createElement("td");
-      cell.className = "space";
+      cell.classList.add("space");
+      if(guesses[id] === "H") {
+        cell.classList.add("hit");
+      } else if(guesses[id] === "M") {
+        cell.classList.add("miss");
+      } else {
+        cell.classList.add("clickable");
+        cell.addEventListener("click", fire);
+      }
       cell.id = id;
-      cell.addEventListener("click", fire);
-      cell.className += " clickable";
       row.appendChild(cell);
     }
 
@@ -208,8 +240,13 @@ function renderGrids() {
       var id = alpha[j].concat((i+1));
       cell = document.createElement("td");
       cell.className = "space";
-      if(ships[id] != undefined) {
-        cell.innerHTML = ships[id];
+      if(opponentGuesses[id] === "H") {
+        cell.classList.add("hit");
+      } else if(opponentGuesses[id] === "M") {
+        cell.classList.add("miss");
+      }
+      if(grid[id] != undefined) {
+        cell.innerHTML = grid[id];
       }
       row.appendChild(cell);
     }
@@ -225,24 +262,80 @@ function fire() {
   var id = this.id;
   var cell = document.getElementById(id);
 
-  var ships, guesses;
+  console.log("Fired at " + id);
+
+  var opponentGrid, opponentShips, guesses;
   if(turn === 1) {
+    opponentGrid = player2_grid;
     opponentShips = player2_ships;
     guesses = player1_guesses;
   } else if(turn === 2) {
+    opponentGrid = player1_grid;
     opponentShips = player1_ships;
     guesses = player2_guesses;
   }
 
-  if(opponentShips[id] != undefined) {
+  if(opponentGrid[id] != undefined) {
     alert("Hit!");
-    guesses[id] = "X";
-    cell.className += " hit";
+    guesses[id] = "H";
+    cell.classList.add("hit");
+    cell.classList.remove("clickable");
+    cell.removeEventListener("click", fire);
+    if(shipSunk(opponentGrid[id].charAt(0), opponentShips, guesses)) {
+      alert("You sunk your opponent's ".concat(shipNames[opponentGrid[id].charAt(0)].toLowerCase()).concat("!"));
+      if(allShipsSunk(opponentShips, guesses)) {
+        winner(turn);
+      }
+    }
+    // Check if this sunk ship
   } else {
     alert("Miss!");
-    guesses[id] = "X";
-    cell.className += " miss";
+    guesses[id] = "M";
+    cell.classList.add("miss");
+    cell.classList.remove("clickable");
+    cell.removeEventListener("click", fire);
   }
 
-  console.log("Fired at " + id);
+}
+
+function shipSunk(ship, opponentShips, guesses) {
+
+  var lengthOfPiece;
+  switch(ship) {
+    case "A":
+      lengthOfPiece = 5;
+      break;
+    case "B":
+      lengthOfPiece = 4;
+      break;
+    case "S":
+      lengthOfPiece = 3;
+      break;
+  }
+
+  var sunk = true;
+  var i;
+  for(i=0; i<lengthOfPiece; i++) {
+    if(guesses[opponentShips["Ship".concat(ship.concat(i))]] == undefined) {
+      sunk = false;
+      break;
+    } else {
+    }
+  }
+
+  //console.log("Sunk = ".concat(sunk));
+  return sunk;
+
+}
+
+function allShipsSunk(opponentShips, guesses) {
+  if(shipSunk("A", opponentShips, guesses) && shipSunk("B", opponentShips, guesses) && shipSunk("S", opponentShips, guesses)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function winner(player) {
+  alert("Winner: ".concat(player));
 }
