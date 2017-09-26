@@ -351,10 +351,6 @@ function gameOver(player) {
     winnerName = player2;
   }
 
-  // FOR testing
-  winnerName = "Marla";
-  score = 1;
-  // END For testing
   alert("You win! Your score is: ".concat(score))
 
   var saved;
