@@ -16,6 +16,7 @@ window.addEventListener('load', battleship, false);
 function battleship() {
 
   setup();
+  gameOver(1);
 
   /*
   if(player1_ships.A3 != undefined) {
@@ -285,7 +286,7 @@ function fire() {
     if(shipSunk(opponentGrid[id].charAt(0), opponentShips, guesses)) {
       alert("You sunk your opponent's ".concat(shipNames[opponentGrid[id].charAt(0)].toLowerCase()).concat("!"));
       if(allShipsSunk(opponentShips, guesses)) {
-        winner(turn);
+        gameOver(turn);
       }
     }
     // Check if this sunk ship
@@ -337,16 +338,57 @@ function allShipsSunk(opponentShips, guesses) {
   }
 }
 
-function winner(player) {
+function gameOver(player) {
   //console.log("Player 1 Hits: ".concat(player1_hits));
 
+  var winnerName;
   var score = 24;
   if(player === 1) {
     score -= player2_hits * 2;
+    winnerName = player1;
   } else {
     score -= player1_hits * 2;
+    winnerName = player2;
   }
 
+  // FOR testing
+  winnerName = "Marla";
+  score = 1;
+  // END For testing
   alert("You win! Your score is: ".concat(score))
+
+  var saved;
+  if (localStorage.getItem("saved") === null) {
+    saved = new Object();
+  } else {
+    saved = JSON.parse(localStorage.getItem("saved"));
+  }
+
+  var i, j;
+  for(i=1; i<=10; i++) {
+    if(saved[i] === undefined) {
+      //console.log("yep");
+      saved[i] = {name: winnerName, score: score};
+      //console.log(saved[i]["name"]);
+      break;
+    } else if(saved[i]["score"] < score) {
+      // bubble sort down
+      for(j=9; j>=i; j--) {
+        saved[j+1] = saved[j];
+      }
+      saved[i] = {name: winnerName, score: score};
+      break;
+    }
+  }
+
+  var top10 = "TOP 10 SCORES:\n";
+  for(i=1; i<=10; i++) {
+    if(saved[i] != undefined) {
+      top10 = top10.concat(i).concat(". ").concat(saved[i]["name"]).concat(": ").concat(saved[i]["score"]).concat("\n");
+      console.log(saved[i]["name"].concat(": ").concat(saved[i]["score"]));
+    }
+  }
+  localStorage.setItem("saved", JSON.stringify(saved));
+  alert(top10);
 
 }
