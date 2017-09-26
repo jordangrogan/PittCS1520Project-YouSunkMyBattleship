@@ -28,3 +28,7 @@ td {
 .clickable {
   cursor: pointer;
 }
+
+#enemyShips, #yourShips {
+  height: 331px;
+}

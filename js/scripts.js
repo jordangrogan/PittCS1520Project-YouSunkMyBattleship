@@ -1,57 +1,28 @@
 var alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 var shipNames = {A:"Aircraft Carrier", B:"Battleship", S:"Submarine"};
-var player1_grid = new Object();
-var player2_grid = new Object();
-var player1_guesses = new Object();
-var player2_guesses = new Object();
-var player1_ships = new Object();
-var player2_ships = new Object();
-var player1, player2
-var player1_hits = 0; // hits made by player 1
-var player2_hits = 3; // hits made by player 2
+var player1_grid = new Object(); // player 1's grid of their ships
+var player2_grid = new Object(); // player 2's grid of their ships
+var player1_guesses = new Object(); // player 1's guesses of opponent spaces
+var player2_guesses = new Object(); /// player 2's guesses of opponent spaces
+var player1_ships = new Object(); // player 1's ship's locations
+var player2_ships = new Object(); // player 2's ship's locations
+var player1, player2 // player 1 & 2 names
+var player1_hits = 0; // hits made by player 1 (for scorekeeping)
+var player2_hits = 0; // hits made by player 2 (for scorekeeping)
 var turn;
 
-window.addEventListener('load', battleship, false);
+window.addEventListener('load', setup, false);
 
-function battleship() {
-
-  setup();
-  gameOver(1);
-
-  /*
-  if(player1_ships.A3 != undefined) {
-    alert("A3 is: ".concat(player1_ships.a3));
-  }
-
-  player1_ships.a3 = undefined;
-  if(player1_ships.A3 === undefined) {
-    alert("hey");
-  }
-  */
-
-  var winner = 0;
-  var test = 0;
-
-  while(winner === 0) {
-
-    //alert("Click OK to begin ".concat(player1).concat("'s turn."));
+function newTurn() {
+  if(turn === 1) {
+    alert("Click OK to begin ".concat(player2).concat("'s turn."));
+    turn = 2;
+    renderGrids();
+  } else {
+    alert("Click OK to begin ".concat(player1).concat("'s turn."));
     turn = 1;
     renderGrids();
-
-    // Clear Screen
-    // Use await?
-
-    //alert("Click OK to begin ".concat(player2).concat("'s turn."));
-    //turn = 2;
-    //renderGrids();
-
-    // max three turns for testing to prevent infinite loop
-    test++;
-    if(test == 1) {
-      winner = 1;
-    }
   }
-
 }
 
 function setup() {
@@ -96,6 +67,8 @@ function setup() {
   console.log(player2_grid);
   console.log("Player 2 Ships:");
   console.log(player2_ships);
+
+  newTurn();
 
 }
 
@@ -172,6 +145,7 @@ function renderGrids() {
 
   // Create Enemy Ships Table
   var table = document.createElement("table");
+  table.id = "enemyShipsGrid";
   document.getElementById("enemyShips").appendChild(table);
 
   // Create Header Row
@@ -216,6 +190,7 @@ function renderGrids() {
 
   // Create Your Ships Table
   var table = document.createElement("table");
+  table.id = "yourShipsGrid";
   document.getElementById("yourShips").appendChild(table);
 
   // Create Header Row
@@ -270,11 +245,11 @@ function fire() {
     opponentGrid = player2_grid;
     opponentShips = player2_ships;
     guesses = player1_guesses;
-} else if(turn === 2) {
+  } else if(turn === 2) {
     opponentGrid = player1_grid;
     opponentShips = player1_ships;
     guesses = player2_guesses;
-}
+  }
 
   if(opponentGrid[id] != undefined) {
     alert("Hit!");
@@ -297,6 +272,9 @@ function fire() {
     cell.classList.remove("clickable");
     cell.removeEventListener("click", fire);
   }
+
+  clearScreen();
+  setTimeout(newTurn, 200);
 
 }
 
@@ -387,4 +365,9 @@ function gameOver(player) {
   localStorage.setItem("saved", JSON.stringify(saved));
   alert(top10);
 
+}
+
+function clearScreen() {
+  document.getElementById("enemyShipsGrid").remove();
+  document.getElementById("yourShipsGrid").remove();
 }
