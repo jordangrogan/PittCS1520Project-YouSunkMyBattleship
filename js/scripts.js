@@ -6,7 +6,9 @@ var player1_guesses = new Object();
 var player2_guesses = new Object();
 var player1_ships = new Object();
 var player2_ships = new Object();
-var player1, player2;
+var player1, player2
+var player1_hits = 0; // hits made by player 1
+var player2_hits = 3; // hits made by player 2
 var turn;
 
 window.addEventListener('load', battleship, false);
@@ -191,8 +193,6 @@ function renderGrids() {
     row.appendChild(cell);
 
     for(j=0; j<10; j++) {
-      /* TO DO */
-      /* Add logic to see if it's been a hit or a miss already! */
       var id = alpha[j].concat((i+1));
       cell = document.createElement("td");
       cell.classList.add("space");
@@ -269,14 +269,15 @@ function fire() {
     opponentGrid = player2_grid;
     opponentShips = player2_ships;
     guesses = player1_guesses;
-  } else if(turn === 2) {
+} else if(turn === 2) {
     opponentGrid = player1_grid;
     opponentShips = player1_ships;
     guesses = player2_guesses;
-  }
+}
 
   if(opponentGrid[id] != undefined) {
     alert("Hit!");
+    if(turn === 1) { player1_hits++; } else { player2_hits++; }
     guesses[id] = "H";
     cell.classList.add("hit");
     cell.classList.remove("clickable");
@@ -337,5 +338,15 @@ function allShipsSunk(opponentShips, guesses) {
 }
 
 function winner(player) {
-  alert("Winner: ".concat(player));
+  //console.log("Player 1 Hits: ".concat(player1_hits));
+
+  var score = 24;
+  if(player === 1) {
+    score -= player2_hits * 2;
+  } else {
+    score -= player1_hits * 2;
+  }
+
+  alert("You win! Your score is: ".concat(score))
+
 }
