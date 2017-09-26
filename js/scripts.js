@@ -29,19 +29,18 @@ function setup() {
 
   // Regex: https://regex101.com/r/JqgHOZ/1
 
-  //player1 = prompt("Hello, player 1. Enter your name.");
-  player1 = "Alice";
-  var player1_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
-  //do {
-  //  var player1_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
-  //} while(player1_shipplacement.match(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/) === null);
-  //player2 = prompt("Hello, player 2. Enter your name.");
-  player2 = "Bob";
-  var player2_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
-  //do {
-  //  var player2_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
-  //} while(player2_shipplacement.match(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/) === null);
-  // If the format is incorrect, do while and give them another chance to enter again
+  player1 = prompt("Hello, player 1. Enter your name.");
+  //player1 = "Alice";
+  //var player1_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
+  do {
+    var player1_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
+  } while(player1_shipplacement.match(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/) === null);
+  player2 = prompt("Hello, player 2. Enter your name.");
+  //player2 = "Bob";
+  //var player2_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
+  do {
+    var player2_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
+  } while(player2_shipplacement.match(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/) === null);
   /*
   A:A1-A5;B:B6-E6; S:H3-J3
   A(A1-A5); B(B6-E6); S(H3-J3);
