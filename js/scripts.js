@@ -27,20 +27,20 @@ function newTurn() {
 
 function setup() {
 
-  // Regex: https://regex101.com/r/JqgHOZ/1
+  // Regex: https://regex101.com/r/JqgHOZ/2
 
   player1 = prompt("Hello, player 1. Enter your name.");
   //player1 = "Alice";
   //var player1_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
   do {
     var player1_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
-  } while(player1_shipplacement.match(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/) === null);
+  } while(player1_shipplacement.match(/([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?/) === null);
   player2 = prompt("Hello, player 2. Enter your name.");
   //player2 = "Bob";
   //var player2_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
   do {
     var player2_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
-  } while(player2_shipplacement.match(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/) === null);
+  } while(player2_shipplacement.match(/([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?/) === null);
   /*
   A:A1-A5;B:B6-E6; S:H3-J3
   A(A1-A5); B(B6-E6); S(H3-J3);
@@ -48,7 +48,7 @@ function setup() {
   */
 
   turn = 1;
-  player1_shipplacement = player1_shipplacement.split(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/);
+  player1_shipplacement = player1_shipplacement.split(/([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?/);
   addGamePiece(player1_shipplacement[1], player1_shipplacement[2], player1_shipplacement[3]);
   addGamePiece(player1_shipplacement[5], player1_shipplacement[6], player1_shipplacement[7]);
   addGamePiece(player1_shipplacement[9], player1_shipplacement[10], player1_shipplacement[11]);
@@ -58,7 +58,7 @@ function setup() {
   console.log(player1_ships);
 
   turn = 2;
-  player2_shipplacement = player2_shipplacement.split(/([ABS]):?\(?([A-J][1-9]|10)-([A-J][1-9]|10)\)?;? ?/);
+  player2_shipplacement = player2_shipplacement.split(/([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?/);
   addGamePiece(player2_shipplacement[1], player2_shipplacement[2], player2_shipplacement[3]);
   addGamePiece(player2_shipplacement[5], player2_shipplacement[6], player2_shipplacement[7]);
   addGamePiece(player2_shipplacement[9], player2_shipplacement[10], player2_shipplacement[11]);
