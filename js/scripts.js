@@ -261,6 +261,9 @@ function fire() {
       alert("You sunk your opponent's ".concat(shipNames[opponentGrid[id].charAt(0)].toLowerCase()).concat("!"));
       if(allShipsSunk(opponentShips, guesses)) {
         gameOver(turn);
+      } else {
+        clearScreen();
+        setTimeout(newTurn, 200);
       }
     }
     // Check if this sunk ship
@@ -270,10 +273,9 @@ function fire() {
     cell.classList.add("miss");
     cell.classList.remove("clickable");
     cell.removeEventListener("click", fire);
+    clearScreen();
+    setTimeout(newTurn, 200);
   }
-
-  clearScreen();
-  setTimeout(newTurn, 200);
 
 }
 
