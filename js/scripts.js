@@ -39,7 +39,7 @@ function setup() {
   //player2 = "Bob";
   //var player2_shipplacement = "B(B6-E6);S(H3-J3);A(A1-A5)";
   do {
-    var player2_shipplacement = prompt("Thanks ".concat(player1).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
+    var player2_shipplacement = prompt("Thanks ".concat(player2).concat("! Enter your ship placement in one of the following formats:\nA:A1-A5;B:B6-E6; S:H3-J3\nA(A1-A5); B(B6-E6); S(H3-J3);\nB(B6-E6);S(H3-J3);A(A1-A5)"));
   } while(player2_shipplacement.match(/([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?([ABS]):?\(?([A-J][1-9]0?)-([A-J][1-9]0?)\)?;? ?/) === null);
   /*
   A:A1-A5;B:B6-E6; S:H3-J3
