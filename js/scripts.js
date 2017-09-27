@@ -265,6 +265,9 @@ function fire() {
         clearScreen();
         setTimeout(newTurn, 200);
       }
+    } else {
+      clearScreen();
+      setTimeout(newTurn, 200);
     }
     // Check if this sunk ship
   } else {
