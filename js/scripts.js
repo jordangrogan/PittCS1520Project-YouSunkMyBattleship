@@ -1,3 +1,10 @@
+/*
+    CS1520 - Assignment 1 - You Sunk My Battleship
+    Jordan Grogan
+    Tuesday/Thursday 6pm
+    Recitation Thursday 7:30pm
+*/
+
 var alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 var shipNames = {A:"Aircraft Carrier", B:"Battleship", S:"Submarine"};
 var player1_grid = new Object(); // player 1's grid of their ships
@@ -300,10 +307,9 @@ function shipSunk(ship, opponentShips, guesses) {
   var sunk = true;
   var i;
   for(i=0; i<lengthOfPiece; i++) {
-    if(guesses[opponentShips["Ship".concat(ship.concat(i))]] == undefined) {
+    if(guesses[opponentShips["Ship".concat(ship.concat(i))]] === undefined) {
       sunk = false;
       break;
-    } else {
     }
   }
 
